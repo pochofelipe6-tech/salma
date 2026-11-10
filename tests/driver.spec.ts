@@ -1,3 +1,4 @@
+import { login } from "./login-helper";
 import { test, expect, type Page } from "@playwright/test";
 async function setup(page: Page) {
   await page.addInitScript(() => {
@@ -36,7 +37,7 @@ async function setup(page: Page) {
         error?.({ code: 1, message: "denied" } as GeolocationPositionError),
     });
   });
-  await page.goto("/");
+  await login(page);
   await page.getByLabel("Tu nombre").fill("Felipe García");
   await page.getByLabel("Placa del vehículo").fill("abc123");
 }
@@ -117,7 +118,8 @@ test("records GPS route, one alert per episode and zone, persists and exports tr
   await page.reload();
   await expect(page.getByLabel("Tu nombre")).toHaveValue("Felipe García");
   await expect(page.getByText("Tus últimos recorridos")).toBeVisible();
-  await page.goto("/admin");
+  await page.getByRole("button", { name: "Cerrar sesión" }).click();
+  await login(page, "admin");
   await expect(
     page.getByRole("heading", { name: "Cada kilómetro, bajo control." }),
   ).toBeVisible();

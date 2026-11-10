@@ -1,3 +1,4 @@
+import { login } from "./login-helper";
 import { test, expect } from "@playwright/test";
 test("audio repeats while over limit, respects mute, and stops with stale GPS", async ({
   page,
@@ -33,7 +34,7 @@ test("audio repeats while over limit, respects mute, and stops with stale GPS", 
         } as GeolocationPosition),
     });
   });
-  await page.goto("/");
+  await login(page);
   await page.getByLabel("Tu nombre").fill("Felipe");
   await page.getByLabel("Placa del vehículo").fill("ABC123");
   await page.getByRole("button", { name: "Permitir ubicación" }).click();

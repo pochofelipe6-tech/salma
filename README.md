@@ -11,7 +11,8 @@ npm install
 npm run dev
 ```
 
-- Conductor: http://localhost:3000/
+- Login: http://localhost:3000/
+- Conductor: http://localhost:3000/conductor
 - Administrador: http://localhost:3000/admin
 - Compilación: `npm run build` genera la exportación estática en `out/`.
 
@@ -55,3 +56,16 @@ npm test
 Playwright simula el GPS y comprueba permisos, ruta, persistencia, exportación, episodios de exceso, cambios de zona, sonido y silencio, pérdida de señal y diseño móvil. TEST_BASE_URL permite otro servidor y CHROME_PATH otro ejecutable.
 
 Sites usa `.openai/hosting.json` para publicar. También se puede alojar `out/` como sitio estático.
+
+## Login de demostración
+
+Selecciona tu rol e inicia sesión con una cuenta pública de prueba:
+
+| Rol           | Correo             | Contraseña    |
+| ------------- | ------------------ | ------------- |
+| Administrador | admin@velo.app     | Admin123!     |
+| Conductor     | conductor@velo.app | Conductor123! |
+
+Las sesiones se guardan en sessionStorage, vencen tras ocho horas y se eliminan al cerrar sesión. Un conductor se redirige a /conductor y un administrador a /admin. Al cerrar sesión durante un viaje se finaliza y guarda el recorrido.
+
+Este login es exclusivamente un prototipo: las cuentas son públicas y las validaciones ocurren en el cliente. No constituye autenticación segura ni autorización de datos. No hay registro de usuarios, recuperación de contraseña ni aislamiento de almacenamiento entre cuentas. Para producción se necesita un backend con usuarios, contraseñas protegidas, sesiones seguras y autorización por rol en el servidor.
