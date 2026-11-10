@@ -1,5 +1,6 @@
 node_modules/
 .next/
+.next-cloud-test/
 out/
 *.zip
 test-results/

@@ -1,4 +1,12 @@
 @import "leaflet/dist/leaflet.css";
+.cloud-retry {
+  background: none;
+  border: 0;
+  color: #55834a;
+  font-size: 9px;
+  text-decoration: underline;
+  padding: 0 4px;
+}
 .driver-app {
   --d-green: #16765d;
   --d-ink: #173a32;

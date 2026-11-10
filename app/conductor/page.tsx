@@ -1,7 +1,20 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { RoleGuard, LogoutButton } from "../auth";
+import {
+  RoleGuard,
+  LogoutButton,
+  storageKey,
+  currentUserId,
+  readSession,
+} from "../auth";
+import { cloudEnabled } from "../lib/supabase";
+import {
+  syncTrip,
+  retryPendingTrips,
+  loadTrips,
+  type Trip,
+} from "../lib/cloud";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -32,16 +45,6 @@ import {
   type SpeedEvent,
 } from "../driver-model";
 import "../driver.css";
-type Trip = {
-  id: number;
-  driver: string;
-  plate: string;
-  startedAt: number;
-  endedAt: number;
-  points: TrackPoint[];
-  events: SpeedEvent[];
-  distance: number;
-};
 type Status = "idle" | "locating" | "ready" | "running" | "finished" | "error";
 const icons = [Building2, Route, Mountain, School];
 export default function DriverPage() {
@@ -52,6 +55,11 @@ export default function DriverPage() {
   );
 }
 function Driver() {
+  const [cloudStatus, setCloudStatus] = useState(
+    cloudEnabled ? "Conectando con Supabase…" : "Registro local",
+  );
+  const cloudId = useRef<string | undefined>(undefined),
+    owner = useRef(currentUserId());
   const [name, setName] = useState(""),
     [plate, setPlate] = useState(""),
     [status, setStatus] = useState<Status>("idle"),
@@ -88,17 +96,43 @@ function Driver() {
   useEffect(() => {
     try {
       const profile = JSON.parse(
-        localStorage.getItem("velo-driver-profile") || "null",
+        localStorage.getItem(storageKey("velo-driver-profile")) || "null",
       );
       if (profile) {
         setName(profile.name || "");
         setPlate(profile.plate || "");
       }
-      setHistory(JSON.parse(localStorage.getItem("velo-trips") || "[]"));
+      setHistory(
+        JSON.parse(localStorage.getItem(storageKey("velo-trips")) || "[]"),
+      );
     } catch {
       setNotice("No se pudieron recuperar los datos guardados.");
     }
+    let cancelled = false;
+    if (cloudEnabled) {
+      void (async () => {
+        const session = await readSession();
+        if (!session?.userId) throw new Error("La sesión venció");
+        owner.current = session.userId;
+        await retryPendingTrips();
+        const remote = await loadTrips();
+        if (!cancelled) {
+          setHistory(remote);
+          save("velo-trips", remote);
+          setCloudStatus("Sincronizado con Supabase");
+          if (session.fullName) setName((n) => n || session.fullName!);
+        }
+      })().catch(() => {
+        if (!cancelled) {
+          setCloudStatus("Sin conexión · guardado local");
+          setNotice(
+            "No se pudo sincronizar con Supabase. Los recorridos pendientes se conservan en este navegador.",
+          );
+        }
+      });
+    }
     return () => {
+      cancelled = true;
       generation.current++;
       if (watch.current !== null)
         navigator.geolocation.clearWatch(watch.current);
@@ -107,7 +141,7 @@ function Driver() {
   }, []);
   function save(key: string, value: unknown) {
     try {
-      localStorage.setItem(key, JSON.stringify(value));
+      localStorage.setItem(storageKey(key), JSON.stringify(value));
     } catch {
       setNotice(
         "El navegador no pudo guardar los datos. Descarga tu recorrido antes de cerrar.",
@@ -158,9 +192,12 @@ function Driver() {
           setEvents([...tripEvents.current]);
           try {
             const stored = JSON.parse(
-              localStorage.getItem("velo-events") || "[]",
+              localStorage.getItem(storageKey("velo-events")) || "[]",
             );
-            localStorage.setItem("velo-events", JSON.stringify([e, ...stored]));
+            localStorage.setItem(
+              storageKey("velo-events"),
+              JSON.stringify([e, ...stored]),
+            );
           } catch {
             setNotice("No se pudo guardar la alerta en el navegador.");
           }
@@ -304,6 +341,7 @@ function Driver() {
       );
     }
     start.current = Date.now();
+    cloudId.current = cloudEnabled ? crypto.randomUUID() : undefined;
     tripPoints.current = [lastPoint.current];
     tripEvents.current = [];
     tripDistance.current = 0;
@@ -317,29 +355,68 @@ function Driver() {
     setSummary(null);
     setStatus("running");
     save("velo-driver-profile", { name: name.trim(), plate: plate.trim() });
+    if (cloudEnabled) void persistCloud(snapshot(null));
   }
-  function finish() {
+  function snapshot(endedAt: number | null): Trip {
+    return {
+      id: start.current,
+      cloudId: cloudId.current,
+      driverId: owner.current || undefined,
+      driver: name,
+      plate,
+      startedAt: start.current,
+      endedAt,
+      points: [...tripPoints.current],
+      events: [...tripEvents.current],
+      distance: tripDistance.current,
+    };
+  }
+  async function persistCloud(trip: Trip) {
+    setCloudStatus("Sincronizando…");
+    try {
+      await syncTrip(trip);
+      setCloudStatus("Sincronizado con Supabase");
+    } catch {
+      setCloudStatus("Pendiente de sincronización");
+      setNotice(
+        "No se pudo guardar en Supabase. Hay una copia local pendiente; vuelve a intentar con conexión.",
+      );
+    }
+  }
+  async function retryCloud() {
+    setCloudStatus("Sincronizando…");
+    try {
+      await retryPendingTrips();
+      setCloudStatus("Sincronizado con Supabase");
+      setNotice("Los recorridos pendientes se sincronizaron.");
+    } catch {
+      setCloudStatus("Pendiente de sincronización");
+      setNotice(
+        "Sigue sin ser posible sincronizar. Revisa tu conexión y la configuración de Supabase.",
+      );
+    }
+  }
+  useEffect(() => {
+    if (status !== "running" || !cloudEnabled) return;
+    const interval = setInterval(() => {
+      void persistCloud(snapshot(null));
+    }, 15000);
+    return () => clearInterval(interval);
+  }, [status]);
+  async function finish() {
     running.current = false;
     stopWatch();
     over.current = false;
     setFresh(false);
     setSpeed(null);
-    const trip: Trip = {
-      id: start.current,
-      driver: name,
-      plate,
-      startedAt: start.current,
-      endedAt: Date.now(),
-      points: tripPoints.current,
-      events: tripEvents.current,
-      distance: tripDistance.current,
-    };
+    const trip: Trip = snapshot(Date.now());
     const next = [trip, ...history].slice(0, 20);
     setHistory(next);
     save("velo-trips", next);
     setSummary(trip);
     setStatus("finished");
     setFollow(false);
+    if (cloudEnabled) await persistCloud(trip);
   }
   function download(t: Trip) {
     const blob = new Blob([JSON.stringify(t, null, 2)], {
@@ -390,8 +467,8 @@ function Driver() {
             <ShieldCheck size={15} /> Tu seguridad va primero
           </span>
           <LogoutButton
-            beforeLogout={() => {
-              if (running.current) finish();
+            beforeLogout={async () => {
+              if (running.current) await finish();
             }}
           />
         </div>
@@ -529,8 +606,24 @@ function Driver() {
                 </button>
               )}
               <p className="driver-privacy">
-                <ShieldCheck size={12} /> Tus recorridos se guardan en este
-                navegador.
+                <ShieldCheck size={12} />{" "}
+                {cloudEnabled ? (
+                  <>
+                      <span>{cloudStatus}</span>
+                    {cloudStatus === "Pendiente de sincronización" && (
+                      <button
+                        className="cloud-retry"
+                        onClick={() => {
+                          void retryCloud();
+                        }}
+                      >
+                        Reintentar
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  "Tus recorridos se guardan en este navegador."
+                )}
               </p>
             </section>
             <div className="driver-tip">
@@ -752,7 +845,12 @@ function Driver() {
               <section className="driver-card trip-summary">
                 <Flag size={24} />
                 <div>
-                  <h2>Recorrido finalizado, {summary.driver.split(" ")[0]}.</h2>
+                  <h2>
+                    {summary.endedAt
+                      ? "Recorrido finalizado"
+                      : "Recorrido guardado sin finalizar"}
+                    , {summary.driver.split(" ")[0]}.
+                  </h2>
                   <p>
                     {summary.distance.toFixed(2)} km · {summary.events.length}{" "}
                     alertas · {summary.plate}
@@ -803,7 +901,11 @@ function Driver() {
                       setSummary(t);
                       setPoints(t.points);
                       setDistance(t.distance);
-                      setElapsed(Math.floor((t.endedAt - t.startedAt) / 1000));
+                      setElapsed(
+                        Math.floor(
+                          ((t.endedAt || Date.now()) - t.startedAt) / 1000,
+                        ),
+                      );
                       setEvents(t.events);
                       setFollow(false);
                       setStatus("finished");

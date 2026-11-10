@@ -14,6 +14,7 @@ import {
   Zap,
 } from "lucide-react";
 import { DEMO_ACCOUNTS, readSession, signIn, type Role } from "./auth";
+import { demoEnabled, cloudEnabled } from "./lib/supabase";
 import "./login.css";
 export default function Login() {
   const [role, setRole] = useState<Role>("conductor"),
@@ -25,9 +26,24 @@ export default function Login() {
     [ready, setReady] = useState(false);
   const router = useRouter();
   useEffect(() => {
-    const s = readSession();
-    if (s) router.replace(s.role === "admin" ? "/admin" : "/conductor");
-    else setReady(true);
+    let cancelled = false;
+    void readSession()
+      .then((s) => {
+        if (cancelled) return;
+        if (s) router.replace(s.role === "admin" ? "/admin" : "/conductor");
+        else setReady(true);
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setReady(true);
+          setError(
+            "No se pudo comprobar la sesión. Revisa la conexión con Supabase.",
+          );
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [router]);
   function changeRole(next: Role) {
     setRole(next);
@@ -36,12 +52,12 @@ export default function Login() {
     setError("");
     setVisible(false);
   }
-  function submit(e: FormEvent) {
+  async function submit(e: FormEvent) {
     e.preventDefault();
     setError("");
     setBusy(true);
     try {
-      if (signIn(role, email, password))
+      if (await signIn(role, email, password))
         router.replace(role === "admin" ? "/admin" : "/conductor");
       else {
         setError(
@@ -49,9 +65,11 @@ export default function Login() {
         );
         setBusy(false);
       }
-    } catch {
+    } catch (cause) {
       setError(
-        "Permite el almacenamiento de sesión en tu navegador para continuar.",
+        cause instanceof Error
+          ? cause.message
+          : "No se pudo iniciar sesión. Revisa tu conexión.",
       );
       setBusy(false);
     }
@@ -158,7 +176,9 @@ export default function Login() {
                 id="email"
                 type="email"
                 autoComplete="username"
-                placeholder={DEMO_ACCOUNTS[role].email}
+                placeholder={
+                  demoEnabled ? DEMO_ACCOUNTS[role].email : "tu@correo.com"
+                }
                 required
                 maxLength={150}
                 value={email}
@@ -206,31 +226,47 @@ export default function Login() {
               <ArrowRight size={18} />
             </button>
           </form>
-          <div className="login-demo">
-            <div>
-              <span>ACCESO DE DEMOSTRACIÓN</span>
-              <button
-                type="button"
-                onClick={() => {
-                  setEmail(DEMO_ACCOUNTS[role].email);
-                  setPassword(DEMO_ACCOUNTS[role].password);
-                  setError("");
-                }}
-              >
-                Usar cuenta de prueba <ArrowRight size={12} />
-              </button>
+          {demoEnabled ? (
+            <div className="login-demo">
+              <div>
+                <span>ACCESO DE DEMOSTRACIÓN</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEmail(DEMO_ACCOUNTS[role].email);
+                    setPassword(DEMO_ACCOUNTS[role].password);
+                    setError("");
+                  }}
+                >
+                  Usar cuenta de prueba <ArrowRight size={12} />
+                </button>
+              </div>
+              <p>
+                <strong>{DEMO_ACCOUNTS[role].email}</strong>
+                <span>
+                  Contraseña: <code>{DEMO_ACCOUNTS[role].password}</code>
+                </span>
+              </p>
+              <small>
+                Prototipo con sesión local. Las cuentas son públicas y no
+                protegen datos reales; la autenticación de producción requiere
+                un backend.
+              </small>
             </div>
-            <p>
-              <strong>{DEMO_ACCOUNTS[role].email}</strong>
+          ) : (
+            <div className="login-demo">
               <span>
-                Contraseña: <code>{DEMO_ACCOUNTS[role].password}</code>
+                {cloudEnabled
+                  ? "ACCESO CON SUPABASE"
+                  : "CONFIGURACIÓN PENDIENTE"}
               </span>
-            </p>
-            <small>
-              Prototipo con sesión local. Las cuentas son públicas y no protegen
-              datos reales; la autenticación de producción requiere un backend.
-            </small>
-          </div>
+              <p>
+                {cloudEnabled
+                  ? "Usa tu cuenta registrada. Tu rol lo asigna el administrador."
+                  : "Completa las variables de Supabase y reinicia la aplicación."}
+              </p>
+            </div>
+          )}
           <p className="login-help">
             <ShieldCheck size={14} /> Cada decisión segura hace la diferencia.
           </p>
