@@ -1,0 +1,240 @@
+.theme-toggle {
+  position: absolute;
+  right: 25px;
+  top: 17px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 13px;
+  border-radius: 25px;
+  border: 1px solid #7c9e5e66;
+  background: #06130dc9;
+  color: #d8edc7;
+  font-size: 10px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 3px 15px #0002;
+}
+.theme-toggle:hover {
+  border-color: #aaff00;
+  color: #c3ff58;
+}
+.theme-toggle svg {
+  color: #b3ff32;
+}
+html[data-theme="light"] .login-page {
+  --neon: #4e8500;
+  --neon-light: #629a15;
+  color: #17341f;
+  background-color: #eaf0e8;
+  background-image:
+    linear-gradient(
+      90deg,
+      #edf3e4e8 0%,
+      #f2f5e452 43%,
+      #dce7d680 65%,
+      #eaf0e9ed 100%
+    ),
+    linear-gradient(0deg, #eef3e7d9 0%, #eef3e411 60%, #edf4e76b 100%),
+    url("/images/velo-mountain-road.webp");
+}
+html[data-theme="light"] .login-page:before {
+  opacity: 0.25;
+}
+html[data-theme="light"] .login-brand {
+  color: #123c26;
+}
+html[data-theme="light"] .login-brand > span {
+  background: #aaff00;
+  color: #173500;
+}
+html[data-theme="light"] .login-brand small {
+  color: #375440;
+  border-color: #75a334;
+}
+html[data-theme="light"] .login-eyebrow {
+  color: #3e5b3b;
+}
+html[data-theme="light"] .login-story h1 {
+  color: #173b25;
+  text-shadow: 0 2px 14px #fff6;
+}
+html[data-theme="light"] .login-story h1 em {
+  color: #578b00;
+  text-shadow: none;
+}
+html[data-theme="light"] .login-story-content > p {
+  color: #3e5840;
+  text-shadow: 0 1px 6px #fff8;
+}
+html[data-theme="light"] .login-story-content:after {
+  color: #365235;
+}
+html[data-theme="light"] .login-benefits > span {
+  background: linear-gradient(140deg, #fffffff0, #e4edd6e0);
+  border-color: #adc492;
+  border-bottom-color: #609313;
+  color: #314d2b;
+  box-shadow: 0 4px 15px #25431e0a;
+}
+html[data-theme="light"] .login-benefits > span svg {
+  color: #56870a;
+  filter: none;
+}
+html[data-theme="light"] .login-story-footer,
+html[data-theme="light"] .login-bottom,
+html[data-theme="light"] .login-bottom > span {
+  color: #3f5e3f;
+}
+html[data-theme="light"] .login-form-wrap:before {
+  background: linear-gradient(
+    135deg,
+    #9fd732,
+    #8aab64 30%,
+    #68933b 65%,
+    #9cce37
+  );
+}
+html[data-theme="light"] .login-form-wrap:after {
+  background: linear-gradient(145deg, #fffffff8, #f3f7edf5 70%, #dfedccef);
+  box-shadow: inset 0 0 30px #87b85b10;
+}
+html[data-theme="light"] .login-form-wrap {
+  filter: drop-shadow(0 10px 22px #33552216);
+}
+html[data-theme="light"] .login-frame-light {
+  background: #9fdc24;
+  box-shadow: 0 0 10px #8ec93877;
+}
+html[data-theme="light"] .login-frame-slashes {
+  color: #77a51a;
+  text-shadow: none;
+}
+html[data-theme="light"] .login-welcome {
+  color: #5c7452;
+}
+html[data-theme="light"] .login-form-wrap h2 {
+  color: #244830;
+}
+html[data-theme="light"] .login-form-wrap h2 em {
+  color: #588800;
+}
+html[data-theme="light"] .login-subtitle {
+  color: #6c7e66;
+}
+html[data-theme="light"] .login-roles > button {
+  background: #ffffffb8;
+  border-color: #c1cfb5;
+  color: #7c9270;
+}
+html[data-theme="light"] .login-roles > button.selected {
+  background: linear-gradient(140deg, #e6f5c4, #f1f9e3);
+  border-color: #80af28;
+  box-shadow: 0 0 15px #98ca1d13;
+  color: #598d12;
+}
+html[data-theme="light"] .login-roles > button strong {
+  color: #355334;
+}
+html[data-theme="light"] .login-roles > button small {
+  color: #7d8d71;
+}
+html[data-theme="light"]
+  .login-roles
+  > button
+  > svg:last-child:not(:first-child) {
+  background: #95cf2e;
+  color: #274b0e;
+}
+html[data-theme="light"] .login-form-wrap form label {
+  color: #4c6545;
+}
+html[data-theme="light"] .login-form-wrap form label svg {
+  color: #6c991e;
+}
+html[data-theme="light"] .login-input {
+  background: #ffffffd9;
+  border-color: #b3c3a4;
+  box-shadow: inset 0 -1px 3px #85a1650b;
+}
+html[data-theme="light"] .login-input input {
+  color: #2f4d28;
+}
+html[data-theme="light"] .login-input input::placeholder {
+  color: #9aaa8d;
+}
+html[data-theme="light"] .login-input button {
+  color: #8b9e7b;
+}
+html[data-theme="light"] .login-input input:-webkit-autofill {
+  -webkit-text-fill-color: #2f4d28;
+}
+html[data-theme="light"] .login-submit {
+  background: linear-gradient(
+    125deg,
+    #c0f544,
+    #92d31b 45%,
+    #b9ef43 46%,
+    #8dd510
+  );
+  color: #193708;
+  border-color: #a2cf51;
+  box-shadow: 0 4px 18px #6d9e3c24;
+}
+html[data-theme="light"] .login-help {
+  color: #778b6c;
+}
+html[data-theme="light"] .login-help svg {
+  color: #6c981f;
+}
+html[data-theme="light"] .login-demo {
+  background: #f1f7e8;
+  border-color: #aec98d;
+}
+html[data-theme="light"] .login-demo > div > span {
+  color: #54703e;
+}
+html[data-theme="light"] .login-demo p,
+html[data-theme="light"] .login-demo > small {
+  color: #789363;
+}
+html[data-theme="light"] .login-demo strong,
+html[data-theme="light"] .login-demo code {
+  color: #55743c;
+}
+html[data-theme="light"] .theme-toggle {
+  background: #fffffff0;
+  border-color: #afc78d;
+  color: #42602e;
+}
+html[data-theme="light"] .theme-toggle svg {
+  color: #5f8f1d;
+}
+html[data-theme="light"] .scene-toggle {
+  background: #f3f8e9d9;
+  color: #57733f;
+  border-color: #9bb881;
+}
+html[data-theme="light"] .moving-sky {
+  opacity: 0.22;
+}
+html[data-theme="light"] .login-error {
+  background: #fff1e4;
+  color: #9e4d2b;
+  border-color: #e8b385;
+}
+@media (max-width: 760px) {
+  .theme-toggle {
+    top: 24px;
+    right: 18px;
+    padding: 8px;
+  }
+  .theme-toggle span {
+    display: none;
+  }
+  html[data-theme="light"] .login-page {
+    background-image:
+      linear-gradient(0deg, #eef3e9f2, #edf3e6d4 70%, #edf3e6c9),
+      url("/images/velo-mountain-road.webp");
+  }
+}
