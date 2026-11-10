@@ -18,6 +18,7 @@ import {
 import { DEMO_ACCOUNTS, readSession, signIn, type Role } from "./auth";
 import { demoEnabled, cloudEnabled } from "./lib/supabase";
 import "./login.css";
+import RoadScene from "./components/road-scene";
 export default function Login() {
   const [role, setRole] = useState<Role>("conductor"),
     [email, setEmail] = useState(""),
@@ -78,6 +79,7 @@ export default function Login() {
   }
   return (
     <div className="login-page">
+      <RoadScene />
       <section className="login-story">
         <a className="login-brand" href="/">
           <span>

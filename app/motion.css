@@ -1,0 +1,322 @@
+/* Entrance effects use individual translate, preserving skewed buttons and map transforms. */
+@keyframes velo-enter {
+  from {
+    opacity: 0;
+    translate: 0 18px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes velo-line {
+  from {
+    scale: 0.7 1;
+    opacity: 0;
+  }
+  to {
+    scale: 1 1;
+    opacity: 1;
+  }
+}
+.login-brand,
+.login-eyebrow,
+.login-story h1,
+.login-story-content > p,
+.login-benefits > span,
+.login-welcome,
+.login-form-wrap h2,
+.login-subtitle,
+.login-roles > button,
+.login-form-wrap form,
+.login-demo,
+.login-help,
+.login-bottom,
+.login-story-footer {
+  animation: velo-enter 0.75s cubic-bezier(0.2, 0.7, 0.25, 1) both;
+}
+.login-brand {
+  animation-delay: 0.04s;
+}
+.login-eyebrow {
+  animation-delay: 0.14s;
+}
+.login-story h1 {
+  animation-delay: 0.24s;
+}
+.login-story-content > p {
+  animation-delay: 0.35s;
+}
+.login-benefits > span:nth-child(1) {
+  animation-delay: 0.44s;
+}
+.login-benefits > span:nth-child(2) {
+  animation-delay: 0.54s;
+}
+.login-benefits > span:nth-child(3) {
+  animation-delay: 0.64s;
+}
+.login-welcome {
+  animation-delay: 0.14s;
+}
+.login-form-wrap h2 {
+  animation-delay: 0.24s;
+}
+.login-subtitle {
+  animation-delay: 0.32s;
+}
+.login-roles > button:nth-child(1) {
+  animation-delay: 0.38s;
+}
+.login-roles > button:nth-child(2) {
+  animation-delay: 0.46s;
+}
+.login-form-wrap form {
+  animation-delay: 0.52s;
+}
+.login-demo {
+  animation-delay: 0.65s;
+}
+.login-help,
+.login-bottom,
+.login-story-footer {
+  animation-delay: 0.75s;
+}
+.shell .page-title,
+.driver-heading {
+  animation: velo-enter 0.6s ease-out both;
+}
+.stats > .stat,
+.overview > .panel,
+.event-panel,
+.driver-setup,
+.driver-map-card,
+.driver-zones,
+.driver-alert-settings,
+.trip-summary,
+.driver-events,
+.driver-history {
+  animation: velo-enter 0.65s cubic-bezier(0.2, 0.7, 0.25, 1) both;
+}
+.stats > .stat:nth-child(1) {
+  animation-delay: 0.08s;
+}
+.stats > .stat:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.stats > .stat:nth-child(3) {
+  animation-delay: 0.22s;
+}
+.stats > .stat:nth-child(4) {
+  animation-delay: 0.29s;
+}
+.overview > .panel {
+  animation-delay: 0.26s;
+}
+.overview > .panel:nth-child(2) {
+  animation-delay: 0.34s;
+}
+.event-panel {
+  animation-delay: 0.4s;
+}
+.driver-setup {
+  animation-delay: 0.1s;
+}
+.driver-map-card {
+  animation-delay: 0.18s;
+}
+.driver-zones {
+  animation-delay: 0.28s;
+}
+.driver-alert-settings {
+  animation-delay: 0.36s;
+}
+.shell tbody tr {
+  animation: velo-enter 0.45s ease-out both;
+}
+.shell tbody tr:nth-child(2) {
+  animation-delay: 0.05s;
+}
+.shell tbody tr:nth-child(3) {
+  animation-delay: 0.1s;
+}
+.shell tbody tr:nth-child(4) {
+  animation-delay: 0.15s;
+}
+.shell tbody tr:nth-child(5) {
+  animation-delay: 0.2s;
+}
+.login-page button,
+.shell button,
+.driver-app button {
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s,
+    filter 0.2s,
+    scale 0.2s;
+}
+.login-page button:not(:disabled):hover,
+.driver-button:not(:disabled):hover,
+.button:not(:disabled):hover {
+  scale: 1.025;
+}
+.login-page button:not(:disabled):active,
+.driver-app button:not(:disabled):active,
+.shell button:not(:disabled):active {
+  scale: 0.975;
+}
+.stat,
+.driver-zone {
+  transition:
+    box-shadow 0.25s,
+    border-color 0.25s;
+}
+.stat:hover {
+  box-shadow: 0 8px 24px #143a2410;
+}
+.driver-zone:hover {
+  box-shadow: 0 5px 18px #2342240c;
+}
+.shell tbody tr {
+  transition: background 0.2s;
+}
+.shell tbody tr:hover {
+  background: #f5faf7;
+}
+@media (min-width: 1201px) {
+  .login-form-wrap {
+    max-width: 565px;
+    margin-left: auto;
+    margin-right: 0;
+    padding-left: 38px;
+    padding-right: 38px;
+  }
+  .login-form-wrap h2 {
+    font-size: clamp(25px, 1.85vw, 32px);
+  }
+  .login-roles > button {
+    padding-left: 13px;
+    padding-right: 13px;
+    gap: 10px;
+  }
+  .login-bottom {
+    max-width: 565px;
+    margin-left: auto;
+  }
+}
+.road-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+.moving-sky {
+  position: absolute;
+  inset: -2% 0 0 -4%;
+  background-image: url("/images/velo-mountain-road.webp");
+  background-size: auto 100vh;
+  background-repeat: no-repeat;
+  background-position: calc(52vw - 115vh + 4vw) 0;
+  mask-image: linear-gradient(to bottom, #0008 0%, #0006 19%, transparent 40%);
+  animation: sky-drift 70s ease-in-out infinite alternate;
+  transform-origin: 50% 15%;
+  opacity: 0.65;
+}
+.road-traffic {
+  mask-image:linear-gradient(to bottom,transparent 20%,#000 40%,#000 75%,transparent 91%);
+  position: absolute;
+  width: 150vh;
+  height: 100vh;
+  left: calc(52vw - 115vh);
+  top: 0;
+  overflow: visible;
+  opacity: 0.9;
+}
+.scene-paused .moving-sky {
+  animation-play-state: paused;
+}
+.scene-toggle {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  translate: -50% 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #52774344;
+  border-radius: 20px;
+  background: #06110f99;
+  color: #b3c4b5;
+  font-size: 8px;
+  padding: 7px 10px;
+  backdrop-filter: blur(6px);
+}
+.scene-toggle:hover {
+  border-color: #aaff0080;
+  color: #baff33;
+}
+@keyframes sky-drift {
+  from {
+    transform: translateX(-1%) scale(1.03);
+  }
+  to {
+    transform: translateX(3%) scale(1.065);
+  }
+}
+@media (max-width: 1200px) {
+  .login-form-wrap {
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: 0;
+  }
+}
+@media (max-width: 760px) {
+  .login-form-wrap {
+    max-width: 460px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .scene-toggle {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    translate: none;
+    align-self: center;
+    justify-self: center;
+    grid-column: 1/-1;
+    margin: 0 0 14px;
+    order: 3;
+  }
+  .moving-sky {
+    background-position: 45% top;
+    background-size: auto 100%;
+    mask-image: linear-gradient(#0008, transparent 40%);
+  }
+  .road-traffic {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .login-page *,
+  .shell *,
+  .driver-app * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .road-traffic {
+    display: none;
+  }
+  .moving-sky {
+    animation: none;
+    opacity: 0.4;
+  }
+  .login-page button:hover,
+  .driver-app button:hover,
+  .shell button:hover {
+    scale: 1;
+  }
+}
