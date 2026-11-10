@@ -8,6 +8,8 @@ import {
   Eye,
   EyeOff,
   LockKeyhole,
+  Layers3,
+  MapPin,
   Mail,
   Route,
   ShieldCheck,
@@ -86,9 +88,9 @@ export default function Login() {
         <div className="login-story-content">
           <span className="login-eyebrow">CADA VIAJE CUENTA</span>
           <h1>
-            El mejor destino
-            <br />
-            es llegar <em>bien.</em>
+            El mejor <br />
+            destino es <br />
+            llegar <em>bien.</em>
           </h1>
           <p>
             Un espacio para cuidar a quienes conducen y acompañar cada kilómetro
@@ -113,13 +115,28 @@ export default function Login() {
           </div>
           <div className="login-benefits">
             <span>
-              <Check size={15} /> Recorridos con GPS
+              <MapPin size={27} />{" "}
+              <strong>
+                Recorridos
+                <br />
+                con GPS
+              </strong>
             </span>
             <span>
-              <Check size={15} /> Alertas preventivas
+              <ShieldCheck size={27} />{" "}
+              <strong>
+                Alertas
+                <br />
+                preventivas
+              </strong>
             </span>
             <span>
-              <Check size={15} /> Control por zona
+              <Layers3 size={27} />{" "}
+              <strong>
+                Control
+                <br />
+                por zona
+              </strong>
             </span>
           </div>
         </div>
@@ -136,7 +153,9 @@ export default function Login() {
           <span className="login-welcome">
             <span /> BIENVENIDO A VÉLO
           </span>
-          <h2>Tu camino empieza aquí.</h2>
+          <h2>
+            Tu camino empieza <em>aquí.</em>
+          </h2>
           <p className="login-subtitle">
             Inicia sesión y entra a tu espacio de seguridad vial.
           </p>
@@ -169,7 +188,9 @@ export default function Login() {
             </button>
           </div>
           <form onSubmit={submit}>
-            <label htmlFor="email">Correo electrónico</label>
+            <label htmlFor="email">
+              <Mail size={17} /> Correo electrónico
+            </label>
             <div className="login-input">
               <Mail size={17} />
               <input
@@ -186,7 +207,9 @@ export default function Login() {
                 disabled={busy}
               />
             </div>
-            <label htmlFor="password">Contraseña</label>
+            <label htmlFor="password">
+              <LockKeyhole size={17} /> Contraseña
+            </label>
             <div className="login-input">
               <LockKeyhole size={17} />
               <input
@@ -255,6 +278,7 @@ export default function Login() {
             </div>
           ) : (
             <div className="login-demo">
+              <Zap className="login-cloud-icon" size={33} fill="currentColor" />
               <span>
                 {cloudEnabled
                   ? "ACCESO CON SUPABASE"
