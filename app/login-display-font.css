@@ -1,0 +1,7 @@
+@font-face {
+  font-family: "Goldman";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/fonts/goldman-bold.ttf) format("truetype");
+}

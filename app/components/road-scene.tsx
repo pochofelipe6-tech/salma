@@ -26,16 +26,23 @@ export default function RoadScene() {
           <defs>
             <path
               id="traffic-road"
-              d="M 280 1050 C 520 890 830 819 1107 729 C 1260 680 1301 663 1246 638 C 1190 607 1085 593 1090 568 C 1095 546 1210 552 1290 536 C 1324 528 1310 517 1230 511"
+              d="M 850 740 C 930 700 1015 665 1107 629 C 1160 609 1215 594 1242 579"
             />
           </defs>
           {[0, 1, 2].map((i) => (
             <g key={i}>
-              <animateMotion
-                dur="34s"
-                begin={`${i * -(34 / 3)}s`}
+              <animate
+                attributeName="opacity"
+                values="0;1;1;0"
+                keyTimes="0;.08;.86;1"
+                dur="19s"
+                begin={`${i * -(19 / 3)}s`}
                 repeatCount="indefinite"
-                rotate="auto"
+              />
+              <animateMotion
+                dur="19s"
+                begin={`${i * -(19 / 3)}s`}
+                repeatCount="indefinite"
               >
                 <mpath href="#traffic-road" />
               </animateMotion>
@@ -43,19 +50,19 @@ export default function RoadScene() {
                 <animateTransform
                   attributeName="transform"
                   type="scale"
-                  values="1.25;.9;.5;.22"
+                  values="1.15;.85;.55;.3"
                   keyTimes="0;.4;.75;1"
-                  dur="34s"
-                  begin={`${i * -(34 / 3)}s`}
+                  dur="19s"
+                  begin={`${i * -(19 / 3)}s`}
                   repeatCount="indefinite"
                 />
                 <image
                   className="real-traffic-car"
-                  href="/images/real-car.webp"
-                  x="-22"
-                  y="-12"
-                  width="44"
-                  height="24"
+                  href="/images/rear-sportscar.webp"
+                  x="-76"
+                  y="-62"
+                  width="152"
+                  height="84"
                   preserveAspectRatio="xMidYMid meet"
                 />
               </g>

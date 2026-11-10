@@ -1,0 +1,193 @@
+@import "./login-display-font.css";
+.login-story h1 {
+  font-family: "Goldman", "Exo 2", sans-serif;
+  font-weight: 700;
+  font-size: clamp(42px, 3.7vw, 65px);
+  line-height: 1.14;
+  letter-spacing: -2.3px;
+  font-style: italic;
+}
+.login-story h1 em {
+  font-weight: 700;
+}
+.login-story-content {
+  padding-top: 58px;
+}
+.login-page {
+  background-image:
+    linear-gradient(
+      90deg,
+      #000909b8 0%,
+      #000b0b08 40%,
+      #00100a65 60%,
+      #010909ef 100%
+    ),
+    linear-gradient(0deg, #01090cef 0%, #000a0a05 50%, #020b0e33 100%),
+    url("/images/velo-mountain-road.webp");
+}
+.login-form-wrap:before {
+  background: linear-gradient(
+    133deg,
+    #c6ff21,
+    #9df400 8%,
+    #4b6c39 13%,
+    #223a31 28%,
+    #497529 49%,
+    #bdff0c 68%,
+    #406f1a 84%,
+    #b6ff00
+  );
+  filter: drop-shadow(0 0 5px #9dff0044);
+}
+.login-form-wrap:after {
+  background: linear-gradient(
+    135deg,
+    #001006f5,
+    #020a0af7 47%,
+    #01110bf5 87%,
+    #315d0540
+  );
+  box-shadow: inset 0 0 30px #77ff000d;
+}
+.login-frame-light {
+  position: absolute;
+  pointer-events: none;
+  top: 3%;
+  left: 4%;
+  width: 50px;
+  height: 5px;
+  background: #baff15;
+  box-shadow:
+    0 0 5px #aaff00,
+    0 0 20px #aaff0077;
+  border-radius: 8px;
+  rotate: -1deg;
+}
+.login-frame-light:after {
+  content: "";
+  position: absolute;
+  left: -16px;
+  top: 12px;
+  height: 43px;
+  width: 5px;
+  rotate: 0deg;
+  box-shadow: 0 0 7px #aaff00;
+  background: linear-gradient(#baff0e, transparent);
+  border-radius: 5px;
+}
+.login-frame-slashes {
+  position: absolute;
+  right: 36px;
+  bottom: 0;
+  font-family: "Exo 2", sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 28px;
+  letter-spacing: -5px;
+  color: #aaff00;
+  line-height: 1;
+  text-shadow: 0 0 12px #aaff00aa;
+  pointer-events: none;
+}
+.login-form-panel {
+  padding-top: 34px;
+}
+.moving-sky {
+  opacity: 0.88;
+  mask-image: linear-gradient(#000b 0%, #0009 20%, transparent 39%);
+  animation-duration: 40s;
+}
+.real-traffic-car {
+  filter: drop-shadow(0 4px 2px #0008);
+}
+.road-traffic {
+  mask-image: linear-gradient(
+    transparent 25%,
+    #000 45%,
+    #000 82%,
+    transparent 94%
+  );
+}
+.login-route-art {
+  bottom: -5%;
+  height: 220px;
+  opacity: 0.9;
+}
+.route-start {
+  width: 61px;
+  height: 61px;
+  box-shadow:
+    0 0 0 7px #aaff001a,
+    0 0 0 14px #aaff000a,
+    0 0 30px #aaff0077;
+}
+.route-start svg {
+  width: 27px;
+  height: 27px;
+}
+.login-benefits > span {
+  border-bottom-color: #ccff20;
+  box-shadow: inset 0 1px 14px #aaff0005;
+}
+.login-submit {
+  box-shadow:
+    inset 0 2px 3px #efffcf88,
+    0 0 27px #8bff0045,
+    0 5px 16px #0008;
+}
+.login-cloud-icon {
+  filter: drop-shadow(0 0 12px #aaff0080);
+}
+@media (min-width: 1201px) {
+  .login-form-wrap {
+    max-width: 590px;
+  }
+  .login-form-wrap h2 {
+    font-size: clamp(25px, 1.9vw, 33px);
+  }
+  .login-bottom {
+    max-width: 590px;
+  }
+}
+@media (max-width: 1200px) {
+  .login-story h1 {
+    font-size: clamp(37px, 4.1vw, 50px);
+    letter-spacing: -1.8px;
+  }
+}
+@media (max-width: 950px) {
+  .login-story h1 {
+    font-size: 38px;
+    letter-spacing: -1.8px;
+  }
+}
+@media (max-width: 760px) {
+  .login-story-content {
+    padding-top: 29px;
+  }
+  .login-story h1 {
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -1.1px;
+  }
+  .login-form-panel {
+    padding-top: 22px;
+  }
+  .login-form-wrap {
+    max-width: 460px;
+  }
+  .login-frame-slashes {
+    right: 25px;
+    font-size: 24px;
+  }
+  .login-frame-light {
+    width: 38px;
+  }
+  .login-frame-light:after {
+    height: 30px;
+    left: -12px;
+  }
+  .moving-sky {
+    opacity: 0.7;
+  }
+}

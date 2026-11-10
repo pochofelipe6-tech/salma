@@ -152,6 +152,10 @@ export default function Login() {
           <Zap size={22} fill="currentColor" /> vélo
         </div>
         <div className="login-form-wrap">
+          <span className="login-frame-light" aria-hidden="true" />
+          <span className="login-frame-slashes" aria-hidden="true">
+            ///
+          </span>
           <span className="login-welcome">
             <span /> BIENVENIDO A VÉLO
           </span>
