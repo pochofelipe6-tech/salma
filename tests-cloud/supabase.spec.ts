@@ -96,7 +96,7 @@ test("real-auth mode syncs GPS batches, retries failed saves and awaits final sa
   });
   await page.clock.install();
   await page.goto("/");
-  await expect(page.getByText("ACCESO CON SUPABASE")).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Tu camino empieza aquí.'})).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Usar cuenta de prueba" }),
   ).toHaveCount(0);

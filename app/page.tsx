@@ -16,7 +16,7 @@ import {
   Zap,
 } from "lucide-react";
 import { DEMO_ACCOUNTS, readSession, signIn, type Role } from "./auth";
-import { demoEnabled, cloudEnabled } from "./lib/supabase";
+import { demoEnabled } from "./lib/supabase";
 import "./login.css";
 import RoadScene from "./components/road-scene";
 export default function Login() {
@@ -255,7 +255,7 @@ export default function Login() {
               <ArrowRight size={18} />
             </button>
           </form>
-          {demoEnabled ? (
+          {demoEnabled && (
             <div className="login-demo">
               <div>
                 <span>ACCESO DE DEMOSTRACIÓN</span>
@@ -281,20 +281,6 @@ export default function Login() {
                 protegen datos reales; la autenticación de producción requiere
                 un backend.
               </small>
-            </div>
-          ) : (
-            <div className="login-demo">
-              <Zap className="login-cloud-icon" size={33} fill="currentColor" />
-              <span>
-                {cloudEnabled
-                  ? "ACCESO CON SUPABASE"
-                  : "CONFIGURACIÓN PENDIENTE"}
-              </span>
-              <p>
-                {cloudEnabled
-                  ? "Usa tu cuenta registrada. Tu rol lo asigna el administrador."
-                  : "Completa las variables de Supabase y reinicia la aplicación."}
-              </p>
             </div>
           )}
           <p className="login-help">
