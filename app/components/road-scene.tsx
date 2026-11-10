@@ -28,21 +28,12 @@ export default function RoadScene() {
               id="traffic-road"
               d="M 280 1050 C 520 890 830 819 1107 729 C 1260 680 1301 663 1246 638 C 1190 607 1085 593 1090 568 C 1095 546 1210 552 1290 536 C 1324 528 1310 517 1230 511"
             />
-            <filter
-              id="headlight-glow"
-              x="-100%"
-              y="-200%"
-              width="400%"
-              height="500%"
-            >
-              <feGaussianBlur stdDeviation="2" />
-            </filter>
           </defs>
-          {[0, 1, 2, 3].map((i) => (
+          {[0, 1, 2].map((i) => (
             <g key={i}>
               <animateMotion
-                dur="28s"
-                begin={`${i * -7}s`}
+                dur="34s"
+                begin={`${i * -(34 / 3)}s`}
                 repeatCount="indefinite"
                 rotate="auto"
               >
@@ -52,51 +43,20 @@ export default function RoadScene() {
                 <animateTransform
                   attributeName="transform"
                   type="scale"
-                  values="1.6;1.25;.75;.38"
+                  values="1.25;.9;.5;.22"
                   keyTimes="0;.4;.75;1"
-                  dur="28s"
-                  begin={`${i * -7}s`}
+                  dur="34s"
+                  begin={`${i * -(34 / 3)}s`}
                   repeatCount="indefinite"
                 />
-                <ellipse
-                  cx="1"
-                  cy="1"
-                  rx="16"
-                  ry="8"
-                  fill="#000"
-                  opacity=".65"
-                />
-                <path
-                  d="M-12-4Q-14 0-12 4L8 5Q14 4 14 0Q14-4 8-5Z"
-                  fill={i % 2 ? "#becdd0" : "#e6f1e0"}
-                  stroke="#5e7a6b"
-                  strokeWidth="1"
-                />
-                <path d="M-6-3L4-3L7 0L4 3L-6 3L-8 0Z" fill="#183c40" />
-                <path d="M10-3L35-9L35 9L10 3Z" fill="#eaffba" opacity=".1" />
-                <path
-                  d="M11-3L14-3M11 3L14 3"
-                  stroke="#edffd7"
-                  strokeWidth="2"
-                />
-                <path
-                  d="M-12-3L-14-3M-12 3L-14 3"
-                  stroke="#ff6955"
-                  strokeWidth="2"
-                />
-                <circle
-                  cx="14"
-                  cy="-3"
-                  r="3"
-                  fill="#d4ffab"
-                  filter="url(#headlight-glow)"
-                />
-                <circle
-                  cx="14"
-                  cy="3"
-                  r="3"
-                  fill="#d4ffab"
-                  filter="url(#headlight-glow)"
+                <image
+                  className="real-traffic-car"
+                  href="/images/real-car.webp"
+                  x="-22"
+                  y="-12"
+                  width="44"
+                  height="24"
+                  preserveAspectRatio="xMidYMid meet"
                 />
               </g>
             </g>
