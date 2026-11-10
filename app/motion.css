@@ -1,4 +1,24 @@
 /* Entrance effects use individual translate, preserving skewed buttons and map transforms. */
+@media (min-width: 761px) {
+  .login-page {
+    --road-height: 100vh;
+    --road-width: 150vh;
+    --road-left: calc(52vw - 115vh);
+    background-size:
+      cover,
+      cover,
+      var(--road-width) var(--road-height);
+    background-position:
+      center,
+      center,
+      var(--road-left) top;
+  }
+  .road-traffic {
+    width: var(--road-width);
+    height: var(--road-height);
+    left: var(--road-left);
+  }
+}
 @keyframes velo-enter {
   from {
     opacity: 0;
@@ -225,7 +245,13 @@
   opacity: 0.65;
 }
 .road-traffic {
-  mask-image:linear-gradient(to bottom,transparent 20%,#000 40%,#000 75%,transparent 91%);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 20%,
+    #000 40%,
+    #000 75%,
+    transparent 91%
+  );
   position: absolute;
   width: 150vh;
   height: 100vh;
